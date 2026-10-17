@@ -35,6 +35,17 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
     years.push(y);
   }
 
+  // スマホ画面で年数が多い場合に目盛り文字が重ならないよう間引き間隔を算出
+  const totalYears = years.length;
+  const mobileStep =
+    totalYears <= 8 ? 1 : totalYears <= 15 ? 2 : totalYears <= 24 ? 3 : 5;
+
+  const shouldShowMobileYearLabel = (idx: number) => {
+    if (idx === 0 || idx === totalYears - 1) return true;
+    if (totalYears - 1 - idx < Math.ceil(mobileStep / 2)) return false;
+    return idx % mobileStep === 0;
+  };
+
   // 年ごとの同時着用数を計算
   const activeCountByYear = years.reduce<Record<number, number>>((acc, y) => {
     acc[y] = sorted.filter((s) => {
@@ -44,175 +55,195 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
     return acc;
   }, {});
 
+  const gridColsStyle = {
+    gridTemplateColumns: `repeat(${years.length}, minmax(0, 1fr))`,
+  };
+
   return (
-    <div className="bg-white border-2 border-zinc-900 shadow-[5px_5px_0px_0px_rgba(24,24,27,1)] p-4 sm:p-6 overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b-2 border-zinc-900">
+    <div className="bg-white border-2 border-zinc-900 shadow-[4px_4px_0px_0px_rgba(24,24,27,1)] sm:shadow-[5px_5px_0px_0px_rgba(24,24,27,1)] p-3 sm:p-6 overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-3 sm:mb-4 pb-2.5 sm:pb-3 border-b-2 border-zinc-900">
         <div>
-          <h3 className="text-base sm:text-lg font-black tracking-tight text-zinc-900">
+          <h3 className="text-sm sm:text-lg font-black tracking-tight text-zinc-900">
             ROTATION MATRIX / 着用期間・ローテーション年表
           </h3>
-          <p className="text-xs text-zinc-500 mt-0.5">
-            どの年代にどの靴を並行して履いていたか（ローテーションの重なり）を可視化します。バーをタップすると編集できます。
+          <p className="text-[11px] sm:text-xs text-zinc-500 mt-0.5">
+            全期間のローテーションの重なりを一画面で比較できます。行をタップすると編集できます。
           </p>
         </div>
-        <div className="flex items-center gap-3 text-xs font-mono-code whitespace-nowrap">
+        <div className="flex items-center gap-3 text-[11px] sm:text-xs font-mono-code whitespace-nowrap">
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 inline-block bg-zinc-900 border border-zinc-900" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 inline-block bg-zinc-900 border border-zinc-900" />
             着用期間
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 inline-block bg-emerald-600 border border-zinc-900" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 inline-block bg-emerald-600 border border-zinc-900" />
             現在も現役
           </span>
         </div>
       </div>
 
-      <div className="overflow-x-auto pb-2">
-        <div className="min-w-[680px]">
-          {/* Header Row: Years & Ages */}
-          <div className="grid grid-cols-12 border-b-2 border-zinc-900 bg-zinc-100">
-            <div className="col-span-4 p-2.5 font-mono-code text-xs font-bold text-zinc-700 border-r border-zinc-300 whitespace-nowrap">
-              MODEL / ERA
-            </div>
-            <div
-              className="col-span-8 grid"
-              style={{ gridTemplateColumns: `repeat(${years.length}, minmax(36px, 1fr))` }}
-            >
-              {years.map((y) => {
-                const age =
-                  profile.birthYear && y - profile.birthYear >= 0
-                    ? `${y - profile.birthYear}歳`
-                    : null;
-                return (
-                  <div
-                    key={y}
-                    className="py-2 px-1 text-center border-r border-zinc-200 last:border-r-0"
-                  >
-                    <div className="font-mono-code text-[11px] font-extrabold text-zinc-900 whitespace-nowrap">
-                      '{String(y).slice(-2)}
-                    </div>
-                    {age && (
-                      <div className="text-[10px] text-zinc-500 font-medium leading-tight whitespace-nowrap">
-                        {age}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+      {/* 横スクロール不要・画面幅100%フィットのタイムライン */}
+      <div className="w-full border border-zinc-300">
+        {/* Header Row: Years & Ages */}
+        <div className="grid grid-cols-1 md:grid-cols-12 border-b-2 border-zinc-900 bg-zinc-100 sticky top-0 z-20">
+          <div className="hidden md:flex md:col-span-4 p-2.5 font-mono-code text-xs font-bold text-zinc-700 border-r border-zinc-300 items-center whitespace-nowrap">
+            MODEL / ERA ({minYear} – {maxYear})
           </div>
+          <div className="md:col-span-8 grid" style={gridColsStyle}>
+            {years.map((y, idx) => {
+              const age =
+                profile.birthYear && y - profile.birthYear >= 0
+                  ? `${y - profile.birthYear}歳`
+                  : null;
+              const showOnMobile = shouldShowMobileYearLabel(idx);
 
-          {/* Sneaker Rows */}
-          {sorted.map((item) => {
-            const endYear = item.isCurrent || !item.endYear ? currentYear : item.endYear;
-            const spanYears = Math.max(1, endYear - item.startYear + 1);
-            const startIdx = years.indexOf(item.startYear);
+              return (
+                <div
+                  key={y}
+                  className="py-1.5 sm:py-2 px-0.5 text-center border-r border-zinc-200/80 last:border-r-0 flex flex-col items-center justify-center"
+                >
+                  <div
+                    className={`font-mono-code text-[10px] sm:text-[11px] font-extrabold text-zinc-900 whitespace-nowrap ${
+                      showOnMobile ? 'block' : 'hidden sm:block'
+                    }`}
+                  >
+                    '{String(y).slice(-2)}
+                  </div>
+                  {age && (
+                    <div
+                      className={`text-[9px] sm:text-[10px] text-zinc-500 font-medium leading-tight whitespace-nowrap ${
+                        showOnMobile ? 'block' : 'hidden sm:block'
+                      }`}
+                    >
+                      {age}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
-            return (
-              <div
-                key={item.id}
-                onClick={() => onEdit(item)}
-                className="grid grid-cols-12 border-b border-zinc-200 hover:bg-zinc-50 cursor-pointer transition-colors group"
-              >
-                {/* Sneaker Title Column */}
-                <div className="col-span-4 p-2.5 border-r border-zinc-300 flex items-center gap-2 min-w-0">
+        {/* Sneaker Rows */}
+        {sorted.map((item) => {
+          const endYear = item.isCurrent || !item.endYear ? currentYear : item.endYear;
+          const spanYears = Math.max(1, endYear - item.startYear + 1);
+          const startIdx = years.indexOf(item.startYear);
+          const periodLabel = `${item.startYear}–${item.isCurrent ? 'NOW' : endYear}`;
+
+          return (
+            <div
+              key={item.id}
+              onClick={() => onEdit(item)}
+              className="grid grid-cols-1 md:grid-cols-12 border-b border-zinc-200 hover:bg-zinc-50 cursor-pointer transition-colors group"
+            >
+              {/* Sneaker Title Area: Top bar on mobile, Left 4-cols on desktop */}
+              <div className="md:col-span-4 px-2.5 pt-2 pb-1 md:p-2.5 md:border-r border-zinc-300 flex items-center justify-between md:justify-start gap-2 min-w-0">
+                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
                   <span
-                    className="w-3.5 h-3.5 rounded-full flex-shrink-0 border border-zinc-400"
+                    className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full flex-shrink-0 border border-zinc-400"
                     style={{ backgroundColor: item.primaryColor }}
                   />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="font-mono-code text-[10px] font-bold uppercase px-1.5 py-0.2 bg-zinc-200 text-zinc-800 whitespace-nowrap flex-shrink-0">
-                        {item.brand}
-                      </span>
-                      {item.eraTag && (
-                        <span className="text-[10px] text-zinc-500 whitespace-nowrap truncate">
-                          #{item.eraTag}
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-xs sm:text-sm font-bold text-zinc-900 truncate group-hover:underline">
-                      {item.model}
-                    </div>
-                  </div>
+                  <span className="font-mono-code text-[10px] font-bold uppercase px-1.5 py-0.2 bg-zinc-200 text-zinc-800 whitespace-nowrap flex-shrink-0">
+                    {item.brand}
+                  </span>
+                  <span className="text-xs sm:text-sm font-bold text-zinc-900 truncate group-hover:underline">
+                    {item.model}
+                  </span>
+                  {item.eraTag && (
+                    <span className="hidden sm:inline text-[10px] text-zinc-500 whitespace-nowrap truncate">
+                      #{item.eraTag}
+                    </span>
+                  )}
                 </div>
 
-                {/* Year Cells + Gantt Bar */}
-                <div
-                  className="col-span-8 grid relative items-center py-2"
-                  style={{ gridTemplateColumns: `repeat(${years.length}, minmax(36px, 1fr))` }}
-                >
-                  {/* Vertical Grid Lines */}
-                  {years.map((y, colIdx) => (
-                    <div
-                      key={y}
-                      style={{ gridColumn: colIdx + 1, gridRow: 1 }}
-                      className="h-full border-r border-dashed border-zinc-200 last:border-r-0"
-                    />
-                  ))}
-
-                  {/* Bar Overlay */}
-                  <div
-                    style={{
-                      gridColumnStart: startIdx + 1,
-                      gridColumnEnd: startIdx + 1 + spanYears,
-                      gridRow: 1,
-                    }}
-                    className={`relative z-10 mx-1 h-7 px-2 flex items-center justify-between text-[11px] font-mono-code font-bold text-white shadow-sm transition-transform group-hover:scale-[1.01] ${
-                      item.isCurrent || item.status === 'active'
-                        ? 'bg-emerald-600 border border-emerald-800'
-                        : 'bg-zinc-900 border border-zinc-900'
-                    }`}
-                    title={`${item.brand} ${item.model} (${item.startYear}〜${
-                      item.isCurrent ? '現在' : endYear
-                    }) - ${STATUS_LABELS[item.status].label}`}
-                  >
-                    <span className="truncate">
-                      {item.startYear}–{item.isCurrent ? 'NOW' : String(endYear).slice(-2)}
+                {/* Mobile-only right-aligned compact period & era tag */}
+                <div className="flex md:hidden items-center gap-1.5 flex-shrink-0">
+                  {item.eraTag && (
+                    <span className="text-[10px] text-zinc-500 bg-zinc-100 px-1.5 py-0.2 border border-zinc-200 whitespace-nowrap">
+                      #{item.eraTag}
                     </span>
-                    <span className="ml-1 opacity-80 text-[10px] hidden sm:inline">
-                      {spanYears}yr
-                    </span>
-                  </div>
+                  )}
+                  <span className="font-mono-code text-[10px] font-bold text-zinc-600 whitespace-nowrap">
+                    {periodLabel} ({spanYears}y)
+                  </span>
                 </div>
               </div>
-            );
-          })}
 
-          {/* Footer Summary Row: Active Rotation Count per Year */}
-          <div className="grid grid-cols-12 bg-zinc-50 border-t-2 border-zinc-900">
-            <div className="col-span-4 p-2 font-mono-code text-[11px] font-bold text-zinc-600 border-r border-zinc-300">
-              同時保有・着用数（足）
-            </div>
-            <div
-              className="col-span-8 grid"
-              style={{ gridTemplateColumns: `repeat(${years.length}, minmax(36px, 1fr))` }}
-            >
-              {years.map((y) => {
-                const count = activeCountByYear[y] || 0;
-                return (
+              {/* Year Cells + 100%-Fit Gantt Bar */}
+              <div
+                className="md:col-span-8 grid relative items-center pb-2 pt-0.5 md:py-2"
+                style={gridColsStyle}
+              >
+                {/* Vertical Grid Lines for Every Year */}
+                {years.map((y, colIdx) => (
                   <div
                     key={y}
-                    className="py-1.5 text-center font-mono-code text-xs font-bold border-r border-zinc-200 last:border-r-0"
-                  >
-                    <span
-                      className={
-                        count >= 3
-                          ? 'text-amber-600 font-black'
-                          : count > 0
-                          ? 'text-zinc-800'
-                          : 'text-zinc-300'
-                      }
-                    >
-                      {count}
-                    </span>
-                  </div>
-                );
-              })}
+                    style={{ gridColumn: colIdx + 1, gridRow: 1 }}
+                    className="h-full border-r border-dashed border-zinc-200 last:border-r-0"
+                  />
+                ))}
+
+                {/* Bar Overlay */}
+                <div
+                  style={{
+                    gridColumnStart: startIdx + 1,
+                    gridColumnEnd: startIdx + 1 + spanYears,
+                    gridRow: 1,
+                  }}
+                  className={`relative z-10 mx-0.5 sm:mx-1 h-5 sm:h-7 px-1 sm:px-2 flex items-center justify-between text-[10px] sm:text-[11px] font-mono-code font-bold text-white shadow-xs transition-transform group-hover:scale-[1.01] overflow-hidden ${
+                    item.isCurrent || item.status === 'active'
+                      ? 'bg-emerald-600 border border-emerald-800'
+                      : 'bg-zinc-900 border border-zinc-900'
+                  }`}
+                  title={`${item.brand} ${item.model} (${item.startYear}〜${
+                    item.isCurrent ? '現在' : endYear
+                  }) - ${STATUS_LABELS[item.status].label}`}
+                >
+                  <span className="hidden sm:inline truncate whitespace-nowrap">
+                    {item.startYear}–{item.isCurrent ? 'NOW' : String(endYear).slice(-2)}
+                  </span>
+                  <span className="mx-auto sm:mx-0 sm:ml-1 opacity-90 text-[9px] sm:text-[10px] whitespace-nowrap">
+                    {spanYears}y
+                  </span>
+                </div>
+              </div>
             </div>
+          );
+        })}
+
+        {/* Footer Summary Row: Active Rotation Count per Year */}
+        <div className="grid grid-cols-1 md:grid-cols-12 bg-zinc-50 border-t-2 border-zinc-900">
+          <div className="md:col-span-4 px-2.5 py-1.5 md:p-2 font-mono-code text-[10px] sm:text-[11px] font-bold text-zinc-600 border-b md:border-b-0 md:border-r border-zinc-300 flex items-center justify-between">
+            <span>同時保有・着用数（足）</span>
+            <span className="md:hidden text-[10px] text-zinc-400">各年の稼働数</span>
+          </div>
+          <div className="md:col-span-8 grid" style={gridColsStyle}>
+            {years.map((y) => {
+              const count = activeCountByYear[y] || 0;
+              return (
+                <div
+                  key={y}
+                  className="py-1 sm:py-1.5 text-center font-mono-code text-[10px] sm:text-xs font-bold border-r border-zinc-200 last:border-r-0"
+                >
+                  <span
+                    className={
+                      count >= 3
+                        ? 'text-amber-600 font-black'
+                        : count > 0
+                        ? 'text-zinc-800'
+                        : 'text-zinc-300'
+                    }
+                  >
+                    {count}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
     </div>
   );
 };
+
