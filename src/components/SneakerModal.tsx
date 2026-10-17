@@ -192,30 +192,30 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
     birthYear && startYear - birthYear >= 0 ? `${startYear - birthYear}歳` : null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      <div className="bg-white border-2 border-zinc-900 shadow-[8px_8px_0px_0px_rgba(24,24,27,1)] w-full max-w-4xl max-h-[94vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-6 overflow-y-auto">
+      <div className="bg-white border-2 border-zinc-900 shadow-[6px_6px_0px_0px_rgba(24,24,27,1)] sm:shadow-[8px_8px_0px_0px_rgba(24,24,27,1)] w-full max-w-4xl max-h-[94vh] flex flex-col overflow-hidden">
         {/* Modal Header */}
-        <div className="bg-zinc-900 text-white px-5 py-3.5 flex items-center justify-between border-b-2 border-zinc-900">
-          <div className="flex items-center gap-2">
-            <span className="font-mono-code text-xs bg-amber-400 text-zinc-900 font-black px-2 py-0.5">
+        <div className="bg-zinc-900 text-white px-3.5 sm:px-5 py-3 sm:py-3.5 flex items-center justify-between gap-2 border-b-2 border-zinc-900">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="font-mono-code text-[10px] sm:text-xs bg-amber-400 text-zinc-900 font-black px-2 py-0.5 whitespace-nowrap flex-shrink-0">
               FOOTWEAR ARCHIVE
             </span>
-            <h2 className="text-base sm:text-lg font-black tracking-tight">
+            <h2 className="text-sm sm:text-lg font-black tracking-tight whitespace-nowrap truncate">
               {initialData ? '靴の記録を編集' : '新しい一足を年表に追加'}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-zinc-400 hover:text-white transition-colors"
+            className="p-1 text-zinc-400 hover:text-white transition-colors flex-shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form Content */}
-        <form onSubmit={handleSubmit} className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="flex-1 min-h-0 overflow-y-auto p-3.5 sm:p-6 space-y-4 sm:space-y-5">
           {/* Main Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
             {/* Left Column: Category, Required Info & Period */}
             <div className="lg:col-span-6 space-y-4">
               {/* Category Selection */}
@@ -229,7 +229,7 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
                       key={cat}
                       type="button"
                       onClick={() => handleCategoryChange(cat)}
-                      className={`py-2 px-2 text-xs font-bold border-2 transition-all cursor-pointer ${
+                      className={`py-2 px-2 text-xs font-bold border-2 whitespace-nowrap transition-all cursor-pointer ${
                         category === cat
                           ? 'bg-zinc-900 text-white border-zinc-900 shadow-[2px_2px_0px_0px_rgba(251,191,36,1)]'
                           : 'bg-white text-zinc-700 border-zinc-300 hover:border-zinc-900'
@@ -260,7 +260,7 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
                       key={b}
                       type="button"
                       onClick={() => setBrand(b)}
-                      className={`text-[11px] font-mono-code px-2 py-0.5 border transition-colors cursor-pointer ${
+                      className={`text-[11px] font-mono-code px-2 py-0.5 border whitespace-nowrap transition-colors cursor-pointer ${
                         brand === b
                           ? 'bg-zinc-900 text-white border-zinc-900 font-bold'
                           : 'bg-zinc-100 text-zinc-700 border-zinc-300 hover:bg-zinc-200'
@@ -302,14 +302,14 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
               </div>
 
               {/* Wearing Period */}
-              <div className="bg-zinc-50 border-2 border-zinc-900 p-3.5">
+              <div className="bg-zinc-50 border-2 border-zinc-900 p-3 sm:p-3.5">
                 <label className="block text-xs font-mono-code font-bold uppercase text-zinc-700 mb-2">
                   3. PERIOD / 履いていた期間 <span className="text-red-600">*</span>
                 </label>
                 <div className="grid grid-cols-2 gap-3 items-end">
                   <div>
-                    <span className="block text-[11px] font-bold text-zinc-600 mb-1">
-                      履き始めた年 {calculatedStartAge && `（当時 ${calculatedStartAge}）`}
+                    <span className="block text-[11px] font-bold text-zinc-600 mb-1 whitespace-nowrap">
+                      履き始めた年 {calculatedStartAge && `（${calculatedStartAge}）`}
                     </span>
                     <input
                       type="number"
@@ -327,7 +327,7 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
                     />
                   </div>
                   <div>
-                    <span className="block text-[11px] font-bold text-zinc-600 mb-1">
+                    <span className="block text-[11px] font-bold text-zinc-600 mb-1 whitespace-nowrap">
                       手放した年
                     </span>
                     <input
@@ -354,7 +354,7 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
                         setStatus('retired');
                       }
                     }}
-                    className="w-4 h-4 accent-zinc-900"
+                    className="w-4 h-4 accent-zinc-900 flex-shrink-0"
                   />
                   <span className="text-xs font-bold text-zinc-800">
                     現在も所有・現役で履いている（PRESENT）
@@ -380,7 +380,7 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
                       key={tag}
                       type="button"
                       onClick={() => setEraTag(tag)}
-                      className={`text-[11px] px-2 py-0.5 border transition-colors cursor-pointer ${
+                      className={`text-[11px] px-2 py-0.5 border whitespace-nowrap transition-colors cursor-pointer ${
                         eraTag === tag
                           ? 'bg-zinc-900 text-white border-zinc-900 font-bold'
                           : 'bg-zinc-100 text-zinc-700 border-zinc-300 hover:bg-zinc-200'
@@ -396,19 +396,19 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
             {/* Right Column: Visuals, Status, Rating & Memory */}
             <div className="lg:col-span-6 space-y-4">
               {/* Visual Registration (Web Search & Copy-Paste + Silhouette + Color Palette) */}
-              <div className="border-2 border-zinc-900 p-3.5 space-y-3">
-                <div className="flex items-center justify-between">
+              <div className="border-2 border-zinc-900 p-3 sm:p-3.5 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-1">
                   <span className="text-xs font-mono-code font-bold uppercase text-zinc-700">
-                    5. VISUAL / 写真またはシルエット＆カラー設定
+                    5. VISUAL / 写真またはシルエット設定
                   </span>
                   {imageDataUrl && (
                     <button
                       type="button"
                       onClick={() => setImageDataUrl(undefined)}
-                      className="inline-flex items-center gap-1 text-xs text-red-600 hover:underline font-bold"
+                      className="inline-flex items-center gap-1 text-[11px] text-red-600 hover:underline font-bold whitespace-nowrap"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
-                      写真をクリアしてシルエットに戻す
+                      写真をクリア
                     </button>
                   )}
                 </div>
@@ -429,25 +429,25 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
                   <button
                     type="button"
                     onClick={openGoogleImageSearch}
-                    className="w-full flex items-center justify-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-zinc-900 border-2 border-zinc-900 text-xs font-black py-1.5 px-3 transition-colors cursor-pointer"
+                    className="w-full flex items-center justify-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-zinc-900 border-2 border-zinc-900 text-[11px] sm:text-xs font-black py-1.5 px-2.5 whitespace-nowrap transition-colors cursor-pointer"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    <span>🔍 入力したモデル名でWeb画像検索（画像をコピーして下で貼付）</span>
+                    <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
+                    <span>🔍 モデル名でWeb画像検索（コピーして下で貼付）</span>
                   </button>
 
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
                       onClick={handleClipboardButton}
-                      className="flex items-center justify-center gap-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold py-1.5 px-2 transition-colors cursor-pointer"
+                      className="flex items-center justify-center gap-1 bg-zinc-900 hover:bg-zinc-800 text-white text-[11px] sm:text-xs font-bold py-1.5 px-2 whitespace-nowrap transition-colors cursor-pointer"
                     >
-                      <ClipboardPaste className="w-3.5 h-3.5" />
-                      <span>コピーした画像を貼付 (Ctrl+V)</span>
+                      <ClipboardPaste className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span>コピー画像を貼付</span>
                     </button>
 
-                    <label className="flex items-center justify-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 border border-zinc-300 text-zinc-800 text-xs font-bold py-1.5 px-2 cursor-pointer transition-colors">
-                      <Upload className="w-3.5 h-3.5" />
-                      <span>端末の写真ファイルを選択</span>
+                    <label className="flex items-center justify-center gap-1 bg-zinc-100 hover:bg-zinc-200 border border-zinc-300 text-zinc-800 text-[11px] sm:text-xs font-bold py-1.5 px-2 whitespace-nowrap cursor-pointer transition-colors">
+                      <Upload className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span>写真ファイルを選択</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -474,13 +474,13 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
                 {/* Silhouette & 1-Tap Color Presets */}
                 <div className="pt-2 border-t border-dashed border-zinc-200 space-y-2.5">
                   <div className="flex flex-wrap items-center gap-1">
-                    <span className="text-[11px] font-bold text-zinc-600 mr-1">形状:</span>
+                    <span className="text-[11px] font-bold text-zinc-600 mr-1 whitespace-nowrap">形状:</span>
                     {(Object.keys(SILHOUETTE_LABELS) as SilhouetteType[]).map((s) => (
                       <button
                         key={s}
                         type="button"
                         onClick={() => setSilhouette(s)}
-                        className={`text-[10px] font-mono-code uppercase px-2 py-0.5 border cursor-pointer ${
+                        className={`text-[10px] font-mono-code uppercase px-2 py-0.5 border whitespace-nowrap cursor-pointer ${
                           silhouette === s
                             ? 'bg-zinc-900 text-white border-zinc-900 font-bold'
                             : 'bg-white text-zinc-600 border-zinc-300 hover:border-zinc-900'
@@ -509,7 +509,7 @@ export const SneakerModal: React.FC<SneakerModalProps> = ({
                               setPrimaryColor(cp.primaryColor);
                               setAccentColor(cp.accentColor);
                             }}
-                            className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 border transition-colors cursor-pointer ${
+                            className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 border whitespace-nowrap transition-colors cursor-pointer ${
                               active
                                 ? 'bg-zinc-900 text-white border-zinc-900 font-bold'
                                 : 'bg-white text-zinc-700 border-zinc-300 hover:border-zinc-900'

@@ -48,14 +48,14 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
     <div className="bg-white border-2 border-zinc-900 shadow-[5px_5px_0px_0px_rgba(24,24,27,1)] p-4 sm:p-6 overflow-hidden">
       <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b-2 border-zinc-900">
         <div>
-          <h3 className="text-lg font-black tracking-tight text-zinc-900">
+          <h3 className="text-base sm:text-lg font-black tracking-tight text-zinc-900">
             ROTATION MATRIX / 着用期間・ローテーション年表
           </h3>
           <p className="text-xs text-zinc-500 mt-0.5">
-            どの年代にどのスニーカーを並行して履いていたか（ローテーションの重なり）を可視化します。バーをクリックすると編集できます。
+            どの年代にどの靴を並行して履いていたか（ローテーションの重なり）を可視化します。バーをタップすると編集できます。
           </p>
         </div>
-        <div className="flex items-center gap-3 text-xs font-mono-code">
+        <div className="flex items-center gap-3 text-xs font-mono-code whitespace-nowrap">
           <span className="flex items-center gap-1.5">
             <span className="w-3 h-3 inline-block bg-zinc-900 border border-zinc-900" />
             着用期間
@@ -68,10 +68,10 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
       </div>
 
       <div className="overflow-x-auto pb-2">
-        <div className="min-w-[720px]">
+        <div className="min-w-[680px]">
           {/* Header Row: Years & Ages */}
           <div className="grid grid-cols-12 border-b-2 border-zinc-900 bg-zinc-100">
-            <div className="col-span-4 p-2.5 font-mono-code text-xs font-bold text-zinc-700 border-r border-zinc-300">
+            <div className="col-span-4 p-2.5 font-mono-code text-xs font-bold text-zinc-700 border-r border-zinc-300 whitespace-nowrap">
               MODEL / ERA
             </div>
             <div
@@ -88,11 +88,11 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
                     key={y}
                     className="py-2 px-1 text-center border-r border-zinc-200 last:border-r-0"
                   >
-                    <div className="font-mono-code text-[11px] font-extrabold text-zinc-900">
+                    <div className="font-mono-code text-[11px] font-extrabold text-zinc-900 whitespace-nowrap">
                       '{String(y).slice(-2)}
                     </div>
                     {age && (
-                      <div className="text-[10px] text-zinc-500 font-medium leading-tight">
+                      <div className="text-[10px] text-zinc-500 font-medium leading-tight whitespace-nowrap">
                         {age}
                       </div>
                     )}
@@ -115,18 +115,18 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
                 className="grid grid-cols-12 border-b border-zinc-200 hover:bg-zinc-50 cursor-pointer transition-colors group"
               >
                 {/* Sneaker Title Column */}
-                <div className="col-span-4 p-2.5 border-r border-zinc-300 flex items-center gap-2.5 min-w-0">
+                <div className="col-span-4 p-2.5 border-r border-zinc-300 flex items-center gap-2 min-w-0">
                   <span
                     className="w-3.5 h-3.5 rounded-full flex-shrink-0 border border-zinc-400"
                     style={{ backgroundColor: item.primaryColor }}
                   />
-                  <div className="truncate">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-mono-code text-[10px] font-bold uppercase px-1.5 py-0.2 bg-zinc-200 text-zinc-800">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="font-mono-code text-[10px] font-bold uppercase px-1.5 py-0.2 bg-zinc-200 text-zinc-800 whitespace-nowrap flex-shrink-0">
                         {item.brand}
                       </span>
                       {item.eraTag && (
-                        <span className="text-[10px] text-zinc-500 truncate">
+                        <span className="text-[10px] text-zinc-500 whitespace-nowrap truncate">
                           #{item.eraTag}
                         </span>
                       )}

@@ -153,24 +153,24 @@ export function App() {
     <div className="min-h-screen flex flex-col bg-[#F4F4F0] text-zinc-900">
       {/* Demo Mode Banner */}
       {isDemo && (
-        <div className="bg-amber-400 border-b-2 border-zinc-900 px-4 py-2.5">
+        <div className="bg-amber-400 border-b-2 border-zinc-900 px-3 sm:px-4 py-2.5">
           <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-zinc-900">
-              <Sparkles className="w-4 h-4 flex-shrink-0" />
+            <div className="flex items-start sm:items-center gap-2 text-xs sm:text-sm font-bold text-zinc-900">
+              <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5 sm:mt-0" />
               <span>
                 現在はイメージ確認用の「サンプル年表（スニーカー・革靴・サンダル）」を表示中です。そのまま編集するか、白紙から作れます！
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <button
                 onClick={handleRestoreSample}
-                className="bg-white text-zinc-900 border border-zinc-900 font-mono-code text-xs font-bold px-2.5 py-1 cursor-pointer"
+                className="flex-1 sm:flex-initial text-center bg-white text-zinc-900 border border-zinc-900 font-mono-code text-[11px] sm:text-xs font-bold px-2.5 py-1.5 whitespace-nowrap cursor-pointer"
               >
                 最新サンプルを再読込
               </button>
               <button
                 onClick={handleStartMyOwnTimeline}
-                className="bg-zinc-900 text-white hover:bg-zinc-800 font-mono-code text-xs font-bold px-3 py-1.5 cursor-pointer"
+                className="flex-1 sm:flex-initial text-center bg-zinc-900 text-white hover:bg-zinc-800 font-mono-code text-[11px] sm:text-xs font-bold px-3 py-1.5 whitespace-nowrap cursor-pointer"
               >
                 白紙から自分の年表を作る →
               </button>
@@ -229,11 +229,11 @@ export function App() {
 
         {/* Collapsible Profile & BirthYear Bar */}
         {isProfileOpen && (
-          <div className="bg-zinc-50 border-t-2 border-zinc-900 px-4 py-3">
-            <div className="max-w-5xl mx-auto flex flex-wrap items-end gap-4">
+          <div className="bg-zinc-50 border-t-2 border-zinc-900 px-3 sm:px-4 py-3">
+            <div className="max-w-5xl mx-auto grid grid-cols-2 sm:flex sm:flex-wrap items-end gap-3 sm:gap-4">
               <div>
-                <label className="block text-[11px] font-mono-code font-bold text-zinc-600 mb-1">
-                  ニックネーム（ポスターの見出しに表示）
+                <label className="block text-[11px] font-mono-code font-bold text-zinc-600 mb-1 whitespace-nowrap">
+                  ニックネーム（見出し）
                 </label>
                 <input
                   type="text"
@@ -243,12 +243,12 @@ export function App() {
                     setIsDemo(false);
                   }}
                   placeholder="例: TARO"
-                  className="bg-white border-2 border-zinc-900 px-3 py-1 text-sm font-bold w-44"
+                  className="bg-white border-2 border-zinc-900 px-3 py-1 text-sm font-bold w-full sm:w-44"
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-mono-code font-bold text-zinc-600 mb-1">
-                  生年（西暦を入れると当時の年齢を自動計算）
+                <label className="block text-[11px] font-mono-code font-bold text-zinc-600 mb-1 whitespace-nowrap">
+                  生年（年齢を自動計算）
                 </label>
                 <input
                   type="number"
@@ -261,10 +261,10 @@ export function App() {
                     setIsDemo(false);
                   }}
                   placeholder="例: 1998"
-                  className="bg-white border-2 border-zinc-900 px-3 py-1 font-mono-code text-sm font-bold w-36"
+                  className="bg-white border-2 border-zinc-900 px-3 py-1 font-mono-code text-sm font-bold w-full sm:w-36"
                 />
               </div>
-              <div className="flex-1 min-w-[220px]">
+              <div className="col-span-2 sm:flex-1 sm:min-w-[220px]">
                 <label className="block text-[11px] font-mono-code font-bold text-zinc-600 mb-1">
                   サブタイトル・一言テーマ
                 </label>
@@ -280,7 +280,7 @@ export function App() {
               </div>
               <button
                 onClick={() => setIsProfileOpen(false)}
-                className="bg-zinc-900 text-white text-xs font-bold px-4 py-1.5 border-2 border-zinc-900"
+                className="col-span-2 sm:col-span-1 bg-zinc-900 text-white text-xs font-bold px-4 py-1.5 border-2 border-zinc-900 whitespace-nowrap"
               >
                 閉じる
               </button>
@@ -290,16 +290,16 @@ export function App() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-4 py-5 sm:py-8">
         {/* Category Filter Pills (Solves Longest Partner & Noise Concerns!) */}
-        <div className="mb-5 flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1 text-xs font-mono-code font-bold text-zinc-600 mr-1">
+        <div className="mb-5 flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-mono-code font-bold text-zinc-600 mr-0.5 whitespace-nowrap">
             <Filter className="w-3.5 h-3.5" />
             CATEGORY:
           </span>
           <button
             onClick={() => setSelectedCategory('all')}
-            className={`text-xs font-bold px-3 py-1.5 border-2 transition-all cursor-pointer ${
+            className={`text-[11px] sm:text-xs font-bold px-2.5 sm:px-3 py-1 sm:py-1.5 border-2 whitespace-nowrap transition-all cursor-pointer ${
               selectedCategory === 'all'
                 ? 'bg-zinc-900 text-white border-zinc-900 shadow-[2px_2px_0px_0px_rgba(251,191,36,1)]'
                 : 'bg-white text-zinc-700 border-zinc-300 hover:border-zinc-900'
@@ -313,7 +313,7 @@ export function App() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`text-xs font-bold px-3 py-1.5 border-2 transition-all cursor-pointer ${
+                className={`text-[11px] sm:text-xs font-bold px-2.5 sm:px-3 py-1 sm:py-1.5 border-2 whitespace-nowrap transition-all cursor-pointer ${
                   selectedCategory === cat
                     ? 'bg-zinc-900 text-white border-zinc-900 shadow-[2px_2px_0px_0px_rgba(251,191,36,1)]'
                     : 'bg-white text-zinc-700 border-zinc-300 hover:border-zinc-900'
@@ -329,49 +329,53 @@ export function App() {
         <StatsBanner sneakers={filteredSneakers} />
 
         {/* View Switcher & Backup Controls */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-3 border-b-2 border-zinc-900">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 mb-6 pb-3 border-b-2 border-zinc-900">
+          <div className="grid grid-cols-2 sm:flex items-center gap-2 w-full sm:w-auto">
             <button
               onClick={() => setActiveTab('story')}
-              className={`inline-flex items-center gap-2 text-xs sm:text-sm font-black px-4 py-2 border-2 border-zinc-900 cursor-pointer transition-all ${
+              className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-black px-2.5 sm:px-4 py-2 border-2 border-zinc-900 whitespace-nowrap cursor-pointer transition-all ${
                 activeTab === 'story'
                   ? 'bg-zinc-900 text-white shadow-[3px_3px_0px_0px_rgba(251,191,36,1)]'
                   : 'bg-white text-zinc-700 hover:bg-zinc-100'
               }`}
             >
-              <ListOrdered className="w-4 h-4" />
-              <span>縦型カード年表 (STORY)</span>
+              <ListOrdered className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+              <span>
+                縦型カード年表<span className="hidden sm:inline"> (STORY)</span>
+              </span>
             </button>
 
             <button
               onClick={() => setActiveTab('rotation')}
-              className={`inline-flex items-center gap-2 text-xs sm:text-sm font-black px-4 py-2 border-2 border-zinc-900 cursor-pointer transition-all ${
+              className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-black px-2.5 sm:px-4 py-2 border-2 border-zinc-900 whitespace-nowrap cursor-pointer transition-all ${
                 activeTab === 'rotation'
                   ? 'bg-zinc-900 text-white shadow-[3px_3px_0px_0px_rgba(251,191,36,1)]'
                   : 'bg-white text-zinc-700 hover:bg-zinc-100'
               }`}
             >
-              <BarChart3 className="w-4 h-4" />
-              <span>着用期間バー (ROTATION)</span>
+              <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+              <span>
+                着用期間バー<span className="hidden sm:inline"> (ROTATION)</span>
+              </span>
             </button>
           </div>
 
           {/* Backup & Sample Controls */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 ml-auto">
             <button
               onClick={() => exportBackupJson(profile, sneakers)}
-              className="inline-flex items-center gap-1 text-xs font-mono-code font-bold bg-white hover:bg-zinc-100 border border-zinc-400 px-2.5 py-1.5 text-zinc-700"
+              className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-mono-code font-bold bg-white hover:bg-zinc-100 border border-zinc-400 px-2.5 py-1.5 text-zinc-700 whitespace-nowrap"
               title="全データをJSONファイルとしてバックアップ保存"
             >
-              <Download className="w-3.5 h-3.5" />
+              <Download className="w-3.5 h-3.5 flex-shrink-0" />
               <span>JSON保存</span>
             </button>
 
             <label
-              className="inline-flex items-center gap-1 text-xs font-mono-code font-bold bg-white hover:bg-zinc-100 border border-zinc-400 px-2.5 py-1.5 text-zinc-700 cursor-pointer"
+              className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-mono-code font-bold bg-white hover:bg-zinc-100 border border-zinc-400 px-2.5 py-1.5 text-zinc-700 whitespace-nowrap cursor-pointer"
               title="バックアップしたJSONファイルを読み込む"
             >
-              <Upload className="w-3.5 h-3.5" />
+              <Upload className="w-3.5 h-3.5 flex-shrink-0" />
               <span>JSON読込</span>
               <input
                 type="file"
@@ -384,11 +388,11 @@ export function App() {
             {!isDemo && (
               <button
                 onClick={handleRestoreSample}
-                className="inline-flex items-center gap-1 text-xs font-mono-code text-zinc-500 hover:text-zinc-900 px-2 py-1.5"
+                className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-mono-code text-zinc-500 hover:text-zinc-900 px-2 py-1.5 whitespace-nowrap"
                 title="サンプル年表を再表示する"
               >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">サンプルを見る</span>
+                <RotateCcw className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>サンプル表示</span>
               </button>
             )}
           </div>
