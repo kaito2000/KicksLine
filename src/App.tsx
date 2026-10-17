@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import pkg from '../package.json';
 import { FootwearCategory, SneakerEntry, UserProfile } from './types';
 import { CATEGORY_META, SAMPLE_PROFILE, SAMPLE_SNEAKERS } from './data/presets';
 import {
@@ -441,7 +442,12 @@ export function App() {
       {/* Footer */}
       <footer className="border-t-2 border-zinc-900 bg-white py-5 px-4 mt-12">
         <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs font-mono-code text-zinc-500">
-          <span>KICKSLINE — PERSONAL FOOTWEAR LIFE TIMELINE</span>
+          <div className="flex items-center gap-2">
+            <span>KICKSLINE — PERSONAL FOOTWEAR LIFE TIMELINE</span>
+            <span className="bg-zinc-100 border border-zinc-300 text-zinc-700 font-bold px-1.5 py-0.5 text-[11px]">
+              Ver. {pkg.version}
+            </span>
+          </div>
           <span>DATA STORED LOCALLY IN BROWSER (INDEXEDDB)</span>
         </div>
       </footer>
