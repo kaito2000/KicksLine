@@ -87,7 +87,7 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
         {/* Header Row: Years & Ages */}
         <div className="grid grid-cols-1 md:grid-cols-12 border-b-2 border-zinc-900 bg-zinc-100 sticky top-0 z-20">
           <div className="hidden md:flex md:col-span-4 p-2.5 font-mono-code text-xs font-bold text-zinc-700 border-r border-zinc-300 items-center whitespace-nowrap">
-            MODEL / ERA ({minYear} – {maxYear})
+            BRAND / MODEL ({minYear} – {maxYear})
           </div>
           <div className="md:col-span-8 grid" style={gridColsStyle}>
             {years.map((y, idx) => {
@@ -129,7 +129,6 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
           const endYear = item.isCurrent || !item.endYear ? currentYear : item.endYear;
           const spanYears = Math.max(1, endYear - item.startYear + 1);
           const startIdx = years.indexOf(item.startYear);
-          const periodLabel = `${item.startYear}–${item.isCurrent ? 'NOW' : endYear}`;
 
           return (
             <div
@@ -137,37 +136,18 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
               onClick={() => onEdit(item)}
               className="grid grid-cols-1 md:grid-cols-12 border-b border-zinc-200 hover:bg-zinc-50 cursor-pointer transition-colors group"
             >
-              {/* Sneaker Title Area: Top bar on mobile, Left 4-cols on desktop */}
-              <div className="md:col-span-4 px-2.5 pt-2 pb-1 md:p-2.5 md:border-r border-zinc-300 flex items-center justify-between md:justify-start gap-2 min-w-0">
-                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
-                  <span
-                    className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full flex-shrink-0 border border-zinc-400"
-                    style={{ backgroundColor: item.primaryColor }}
-                  />
-                  <span className="font-mono-code text-[10px] font-bold uppercase px-1.5 py-0.2 bg-zinc-200 text-zinc-800 whitespace-nowrap flex-shrink-0">
-                    {item.brand}
-                  </span>
-                  <span className="text-xs sm:text-sm font-bold text-zinc-900 truncate group-hover:underline">
-                    {item.model}
-                  </span>
-                  {item.eraTag && (
-                    <span className="hidden sm:inline text-[10px] text-zinc-500 whitespace-nowrap truncate">
-                      #{item.eraTag}
-                    </span>
-                  )}
-                </div>
-
-                {/* Mobile-only right-aligned compact period & era tag */}
-                <div className="flex md:hidden items-center gap-1.5 flex-shrink-0">
-                  {item.eraTag && (
-                    <span className="text-[10px] text-zinc-500 bg-zinc-100 px-1.5 py-0.2 border border-zinc-200 whitespace-nowrap">
-                      #{item.eraTag}
-                    </span>
-                  )}
-                  <span className="font-mono-code text-[10px] font-bold text-zinc-600 whitespace-nowrap">
-                    {periodLabel} ({spanYears}y)
-                  </span>
-                </div>
+              {/* Sneaker Title Area: Brand & Model only */}
+              <div className="md:col-span-4 px-2.5 pt-2 pb-1 md:p-2.5 md:border-r border-zinc-300 flex items-center gap-1.5 sm:gap-2 min-w-0">
+                <span
+                  className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full flex-shrink-0 border border-zinc-400"
+                  style={{ backgroundColor: item.primaryColor }}
+                />
+                <span className="font-mono-code text-[10px] font-bold uppercase px-1.5 py-0.2 bg-zinc-200 text-zinc-800 whitespace-nowrap flex-shrink-0">
+                  {item.brand}
+                </span>
+                <span className="text-xs sm:text-sm font-bold text-zinc-900 truncate group-hover:underline">
+                  {item.model}
+                </span>
               </div>
 
               {/* Year Cells + 100%-Fit Gantt Bar */}
@@ -184,14 +164,14 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
                   />
                 ))}
 
-                {/* Bar Overlay */}
+                {/* Bar Overlay (yr count only) */}
                 <div
                   style={{
                     gridColumnStart: startIdx + 1,
                     gridColumnEnd: startIdx + 1 + spanYears,
                     gridRow: 1,
                   }}
-                  className={`relative z-10 mx-0.5 sm:mx-1 h-5 sm:h-7 px-1 sm:px-2 flex items-center justify-between text-[10px] sm:text-[11px] font-mono-code font-bold text-white shadow-xs transition-transform group-hover:scale-[1.01] overflow-hidden ${
+                  className={`relative z-10 mx-0.5 sm:mx-1 h-5 sm:h-7 px-1 sm:px-2 flex items-center justify-center text-[10px] sm:text-[11px] font-mono-code font-bold text-white shadow-xs transition-transform group-hover:scale-[1.01] overflow-hidden ${
                     item.isCurrent || item.status === 'active'
                       ? 'bg-emerald-600 border border-emerald-800'
                       : 'bg-zinc-900 border border-zinc-900'
@@ -200,12 +180,7 @@ export const RotationBarView: React.FC<RotationBarViewProps> = ({
                     item.isCurrent ? '現在' : endYear
                   }) - ${STATUS_LABELS[item.status].label}`}
                 >
-                  <span className="hidden sm:inline truncate whitespace-nowrap">
-                    {item.startYear}–{item.isCurrent ? 'NOW' : String(endYear).slice(-2)}
-                  </span>
-                  <span className="mx-auto sm:mx-0 sm:ml-1 opacity-90 text-[9px] sm:text-[10px] whitespace-nowrap">
-                    {spanYears}y
-                  </span>
+                  <span className="whitespace-nowrap">{spanYears}yr</span>
                 </div>
               </div>
             </div>
