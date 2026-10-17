@@ -31,17 +31,18 @@ export const StatsBanner: React.FC<StatsBannerProps> = ({ sneakers }) => {
     }
   }
 
+  // サイトのモノトーン＋アンバー基調に合わせたエディトリアル配色
   const brandColors = [
     'bg-zinc-900',
-    'bg-amber-500',
+    'bg-amber-400',
     'bg-zinc-600',
-    'bg-emerald-600',
-    'bg-blue-600',
-    'bg-rose-600',
     'bg-zinc-400',
-    'bg-violet-600',
-    'bg-teal-600',
-    'bg-orange-500',
+    'bg-amber-600',
+    'bg-stone-500',
+    'bg-zinc-300',
+    'bg-amber-200',
+    'bg-stone-300',
+    'bg-zinc-200',
   ];
 
   return (
@@ -85,7 +86,7 @@ export const StatsBanner: React.FC<StatsBannerProps> = ({ sneakers }) => {
                   <div
                     key={brand}
                     style={{ width: `${exactPct}%` }}
-                    className={`${colorClass} h-full transition-all duration-500`}
+                    className={`${colorClass} h-full border-r border-zinc-900 last:border-r-0 transition-all duration-500`}
                     title={`${brand}: ${count}足 (${pct}%)`}
                   />
                 );
@@ -100,7 +101,9 @@ export const StatsBanner: React.FC<StatsBannerProps> = ({ sneakers }) => {
                 return (
                   <div key={brand} className="flex items-center justify-between text-xs gap-1">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className={`w-2.5 h-2.5 flex-shrink-0 inline-block ${colorClass}`} />
+                      <span
+                        className={`w-2.5 h-2.5 flex-shrink-0 inline-block border border-zinc-900 ${colorClass}`}
+                      />
                       <span className="font-bold text-zinc-800 truncate">{brand}</span>
                     </div>
                     <span className="font-mono-code text-zinc-500 flex-shrink-0">
