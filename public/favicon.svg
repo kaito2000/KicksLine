@@ -1,29 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <!-- Outer Shoebox Archive Background -->
-  <rect width="512" height="512" rx="96" fill="#18181B"/>
-  
-  <!-- Inner Archive Frame with Offset Shadow -->
-  <rect x="44" y="44" width="432" height="432" rx="56" fill="#FBBF24"/>
-  <rect x="36" y="36" width="432" height="432" rx="56" fill="#18181B" stroke="#FAFAFA" stroke-width="10"/>
+  <!-- Full-bleed Dark Background (No inner white border) -->
+  <rect width="512" height="512" fill="#18181B"/>
 
-  <!-- Top Shoebox Label Badge -->
-  <rect x="76" y="76" width="210" height="46" rx="8" fill="#FBBF24"/>
-  <text x="181" y="107" text-anchor="middle" fill="#18181B" font-family="monospace, sans-serif" font-weight="900" font-size="26" letter-spacing="2">KICKSLINE</text>
+  <!-- Large Top Shoebox Label Badge & Bold Text -->
+  <rect x="40" y="46" width="432" height="92" rx="16" fill="#FBBF24"/>
+  <text x="256" y="111" text-anchor="middle" fill="#18181B" font-family="'Arial Black', 'Inter', sans-serif" font-weight="900" font-size="60" letter-spacing="3">KICKSLINE</text>
 
   <!-- Timeline Vertical Axis Accent -->
-  <line x1="104" y1="150" x2="104" y2="416" stroke="#52525B" stroke-width="6" stroke-dasharray="10 8"/>
-  <circle cx="104" cy="184" r="10" fill="#FBBF24"/>
-  <circle cx="104" cy="384" r="10" fill="#FAFAFA"/>
+  <line x1="78" y1="176" x2="78" y2="452" stroke="#52525B" stroke-width="8" stroke-dasharray="12 10"/>
+  <circle cx="78" cy="212" r="14" fill="#FBBF24"/>
+  <circle cx="78" cy="422" r="14" fill="#FAFAFA"/>
 
   <!-- Iconic High-Top Sneaker Silhouette -->
-  <g transform="translate(68, 152) scale(1.55)">
+  <g transform="translate(88, 172) scale(1.72)">
     <!-- Outsole -->
     <path d="M20 120 H220 C225 120 226 128 220 130 H20 C14 130 14 120 20 120 Z" fill="#FBBF24" stroke="#18181B" stroke-width="5"/>
     <!-- Midsole -->
     <path d="M22 104 H218 C222 104 224 120 218 120 H22 C17 120 18 104 22 104 Z" fill="#FFFFFF" stroke="#18181B" stroke-width="5"/>
     <!-- High-top Collar & Upper -->
     <path d="M28 104 L36 18 C37 14 42 12 48 14 L96 26 L112 58 L160 76 L206 82 C218 84 222 94 218 104 Z" fill="#FAFAFA" stroke="#18181B" stroke-width="5" stroke-linejoin="round"/>
-    <!-- Red/Amber Collar & Heel Overlay -->
+    <!-- Amber Collar Overlay -->
     <path d="M34 36 L90 45 L96 60 L31 56 Z" fill="#FBBF24" stroke="#18181B" stroke-width="4"/>
     <!-- Side Stripe Accent -->
     <path d="M64 68 Q116 94 148 72 L136 60 Q110 78 64 55 Z" fill="#18181B"/>
