@@ -121,7 +121,7 @@ export const STATUS_LABELS: Record<SneakerStatus, { label: string; en: string; b
 };
 
 export const SAMPLE_PROFILE: UserProfile = {
-  nickname: 'KAITO (SAMPLE)',
+  nickname: 'SAMPLE',
   birthYear: 1998,
   subtitle: '足元から振り返る、10年間のフットウェア・ライフヒストリー',
 };

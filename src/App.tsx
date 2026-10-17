@@ -45,8 +45,12 @@ export function App() {
         ...s,
         category: s.category || 'sneaker',
       }));
+      const normalizedProfile =
+        state.profile.nickname === 'KAITO (SAMPLE)'
+          ? { ...state.profile, nickname: 'SAMPLE' }
+          : state.profile;
       setSneakers(normalized);
-      setProfile(state.profile);
+      setProfile(normalizedProfile);
       setIsDemo(state.isDemo);
       setIsLoaded(true);
     });
@@ -237,7 +241,7 @@ export function App() {
                     setProfile({ ...profile, nickname: e.target.value });
                     setIsDemo(false);
                   }}
-                  placeholder="例: KAITO"
+                  placeholder="例: TARO"
                   className="bg-white border-2 border-zinc-900 px-3 py-1 text-sm font-bold w-44"
                 />
               </div>
