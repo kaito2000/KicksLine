@@ -63,9 +63,7 @@ export const PosterExportModal: React.FC<PosterExportModalProps> = ({
     return acc;
   }, {});
 
-  const topBrands = Object.entries(brandCounts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 4);
+  const topBrands = Object.entries(brandCounts).sort((a, b) => b[1] - a[1]);
 
   let longestSneaker: { item: SneakerEntry; years: number } | null = null;
   for (const s of sneakers) {

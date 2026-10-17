@@ -19,9 +19,7 @@ export const StatsBanner: React.FC<StatsBannerProps> = ({ sneakers }) => {
     return acc;
   }, {});
 
-  const sortedBrands = Object.entries(brandCounts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 4);
+  const sortedBrands = Object.entries(brandCounts).sort((a, b) => b[1] - a[1]);
 
   // 最長寿の相棒を算出
   let longestSneaker: { item: SneakerEntry; years: number } | null = null;
@@ -33,7 +31,18 @@ export const StatsBanner: React.FC<StatsBannerProps> = ({ sneakers }) => {
     }
   }
 
-  const brandColors = ['bg-zinc-900', 'bg-zinc-600', 'bg-zinc-400', 'bg-zinc-300'];
+  const brandColors = [
+    'bg-zinc-900',
+    'bg-amber-500',
+    'bg-zinc-600',
+    'bg-emerald-600',
+    'bg-blue-600',
+    'bg-rose-600',
+    'bg-zinc-400',
+    'bg-violet-600',
+    'bg-teal-600',
+    'bg-orange-500',
+  ];
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-8">
@@ -69,12 +78,14 @@ export const StatsBanner: React.FC<StatsBannerProps> = ({ sneakers }) => {
             {/* Ratio Bar */}
             <div className="h-3.5 w-full bg-zinc-100 border border-zinc-900 flex overflow-hidden mb-3">
               {sortedBrands.map(([brand, count], idx) => {
-                const pct = Math.round((count / totalCount) * 100);
+                const exactPct = (count / totalCount) * 100;
+                const pct = Math.round(exactPct);
+                const colorClass = brandColors[idx % brandColors.length];
                 return (
                   <div
                     key={brand}
-                    style={{ width: `${pct}%` }}
-                    className={`${brandColors[idx] || 'bg-zinc-200'} h-full transition-all duration-500`}
+                    style={{ width: `${exactPct}%` }}
+                    className={`${colorClass} h-full transition-all duration-500`}
                     title={`${brand}: ${count}足 (${pct}%)`}
                   />
                 );
@@ -85,13 +96,14 @@ export const StatsBanner: React.FC<StatsBannerProps> = ({ sneakers }) => {
             <div className="grid grid-cols-2 gap-x-4 gap-y-1">
               {sortedBrands.map(([brand, count], idx) => {
                 const pct = Math.round((count / totalCount) * 100);
+                const colorClass = brandColors[idx % brandColors.length];
                 return (
-                  <div key={brand} className="flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-1.5 truncate">
-                      <span className={`w-2.5 h-2.5 inline-block ${brandColors[idx]}`} />
+                  <div key={brand} className="flex items-center justify-between text-xs gap-1">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className={`w-2.5 h-2.5 flex-shrink-0 inline-block ${colorClass}`} />
                       <span className="font-bold text-zinc-800 truncate">{brand}</span>
                     </div>
-                    <span className="font-mono-code text-zinc-500">
+                    <span className="font-mono-code text-zinc-500 flex-shrink-0">
                       {count}足 ({pct}%)
                     </span>
                   </div>
